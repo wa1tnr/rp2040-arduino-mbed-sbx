@@ -1,0 +1,26 @@
+Forth-like interpreter.  Please press any key to begin..
+nop reflash delay .s . swap dup drop entries ' words
+execadrs xt>word throw    A92C4 unique message!
+ ?
+  BEACON 1  BEACON 2  BEACON 3  BEACON 4  BEACON 5
+BEACON 6  BEACON 7  BEACON 8  BEACON 9  BEACON 10
+BEACON 11  BEACON 12  BEACON 13  BEACON 14  BEACON 15
+BEACON 16  BEACON 17  BEACON 18  BEACON 19  BEACON 20
+BEACON 21  BEACON 22  BEACON 23 ?
+ ?
+
+Note: new vocabulary word is '.s' (dot-S) which lists the stack contents.
+
+5  ok
+3 2 8  ok
+.s 8 2 3 5 0 0 0 0  ok
+942  ok
+.s 942 8 2 3 5 0 0 0  ok
+18302  ok
+.s 18302 942 8 2 3 5 0 0  ok
+swap  ok
+.s 942 18302 8 2 3 5 0 0  ok
+swap  ok
+.s 18302 942 8 2 3 5 0 0  ok
+
+Mon Jul  5 16:10:22 UTC 2021
