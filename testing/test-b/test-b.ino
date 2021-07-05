@@ -20,7 +20,7 @@ void reflash(void) {
 }
 
 void waitloop(void) {
-    for (volatile int i=1800000;i>0;i--); // do not optimize
+    for (volatile int i=1200000;i>0;i--); // do not optimize
 }
 
 void longwaitloop(void){for (volatile int i=27;i>0;i--){ waitloop();}}
