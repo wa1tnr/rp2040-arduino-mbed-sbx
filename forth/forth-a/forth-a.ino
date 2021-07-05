@@ -1,5 +1,5 @@
 // forth-a.ino
-// Mon Jul  5 15:04:56 UTC 2021
+// Mon Jul  5 15:57:44 UTC 2021
 // Mon Jul  5 07:49:00 UTC 2021
 
 // #include <stdio.h>
@@ -691,7 +691,9 @@ void setup() {
     bool times_up = TRUE_P;
 */
 
+    /* towards proving threaded program: */
     the_only_thread.start(fn_print_beacon_thread); // element14
+    /* It's disruptive here but not enough to matter much */
 
 /*
     do {
