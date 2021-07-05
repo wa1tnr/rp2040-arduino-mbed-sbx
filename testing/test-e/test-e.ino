@@ -1,5 +1,5 @@
 // test-e.ino
-// Mon Jul  5 11:32:54 UTC 2021
+// Mon Jul  5 11:48:25 UTC 2021
 // Mon Jul  5 07:49:00 UTC 2021
 
 // minimally functional - many questions unanswered.  But 'works' sort of.
@@ -33,52 +33,43 @@ void reflash(void) {
     reset_usb_boot(0, 0);
 }
 
-void waitloop(void) {
+void waxitloop(void) {
     for (volatile int i=WAIT_COUNT;i>0;i--); // do not optimize
-}
-
-void longwaitloop(void) {
-    for (volatile int i=27;i>0;i--) {
-        waitloop();
-    }
 }
 
 void led_bar(void) {
     digitalWrite(LED_BUILTIN, 1);
-    waitloop();
+    ThisThread::sleep_for(MS(90));
     digitalWrite(LED_BUILTIN, 0);
-    waitloop();
-    waitloop();
-    waitloop();
+    ThisThread::sleep_for(MS(500));
 }
 
 void led_foo(void) {
-    waitloop();
+    ThisThread::sleep_for(MS(11));
     digitalWrite(LED_BUILTIN, 1);
-    waitloop(); waitloop();
+    ThisThread::sleep_for(MS(11));
     digitalWrite(LED_BUILTIN, 0);
-    waitloop(); waitloop();
+    ThisThread::sleep_for(MS(711));
 }
 
 uint8_t count_here = 0;
 
 // void led_red_function() // element14
 void fn_print_beacon_thread(void) { // continuous message
-    // setup_serial();
-    for (int i=55;i>0;i--) {
+    for (int i=33;i>0;i--) {
     count_here++;
     Serial.print("  BEACON ");
-    // Serial.print(count_here);
+    Serial.print(count_here);
     digitalWrite(LED_BUILTIN, 1);
-    ThisThread::sleep_for(MS(32));
+    ThisThread::sleep_for(MS(5));
 
     digitalWrite(LED_BUILTIN, 0);
-    ThisThread::sleep_for(MS(128));
+    ThisThread::sleep_for(MS(92));
     }
 }
 
 void setup_serial(void) {
-    // longwaitloop();
+    Serial.begin(115200);
 }
 
 void setup_gpio(void) {
@@ -87,12 +78,13 @@ void setup_gpio(void) {
 
 void p_setup(void) {
     setup_gpio();
+    setup_serial();
+    for (int i=5;i>0;i--) { led_foo(); }
 }
 
 void setup() { // int main()
     p_setup();
-    Serial.begin(115200);
-    int timeout_count = 33; // reflash timing by counting
+    int timeout_count = 9; // reflash timing by counting
     bool times_up = TRUE_P;
 
     the_only_thread.start(fn_print_beacon_thread); // element14
@@ -100,15 +92,16 @@ void setup() { // int main()
     do {
         timeout_count--;
         // ATTN // print_beacon();
-        led_bar(); waitloop();
+        led_bar();
+        Serial.print(" KXG");
         if (timeout_count == 0) {
             times_up = FALSE_P; // loop exit mechanism
         }
     } while (times_up);
 
-    // Serial.println(" A252B unique message!");
+    Serial.println(" E4C9A unique message!");
 
-    led_foo(); led_foo(); led_foo(); led_foo(); led_foo();
+    for (int i=12;i>0;i--) { led_foo(); }
 
     reflash(); // RPI_RP2 thumb-drive like entity exposed to operating system via USB
 }
@@ -116,7 +109,6 @@ void setup() { // int main()
 
 void loop() {
     Serial.println("NEVER SEEN.");
-    longwaitloop(); longwaitloop();
     while (1);
 }
 
