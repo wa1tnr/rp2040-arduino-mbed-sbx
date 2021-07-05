@@ -1,10 +1,11 @@
 // test-d.ino
-// Mon Jul  5 11:00:07 UTC 2021
+// Mon Jul  5 11:13:08 UTC 2021
 // Mon Jul  5 07:49:00 UTC 2021
 
 // kinda-sorta works - no serial at all
 
 #include "pico/bootrom.h"
+#include "mbed.h"
 #include "rtos.h" // no issue just including the .h file
 
 #define WAIT_COUNT 1200000
@@ -59,14 +60,15 @@ void led_foo(void) {
     waitloop(); waitloop();
 }
 
-uint8_t count = 0;
+uint8_t count_here = 0;
 
 // void led_red_function() // element14
 void fn_print_beacon_thread(void) { // continuous message
+    // setup_serial();
     for (int i=55;i>0;i--) {
-    count++;
+    count_here++;
     Serial.print("  BEACON ");
-    // Serial.print(count);
+    // Serial.print(count_here);
     digitalWrite(LED_BUILTIN, 1);
     ThisThread::sleep_for(MS(32));
 
@@ -76,8 +78,7 @@ void fn_print_beacon_thread(void) { // continuous message
 }
 
 void setup_serial(void) {
-    Serial.begin(9600);
-    longwaitloop();
+    // longwaitloop();
 }
 
 void setup_gpio(void) {
@@ -86,11 +87,11 @@ void setup_gpio(void) {
 
 void p_setup(void) {
     setup_gpio();
-    setup_serial();
 }
 
-int main() {
+void setup() { // int main()
     p_setup();
+    Serial.begin(115200);
     int timeout_count = 33; // reflash timing by counting
     bool times_up = TRUE_P;
 
@@ -112,10 +113,10 @@ int main() {
     reflash(); // RPI_RP2 thumb-drive like entity exposed to operating system via USB
 }
 
-/*
+
 void loop() {
     Serial.println("NEVER SEEN.");
     longwaitloop(); longwaitloop();
     while (1);
 }
-*/
+
