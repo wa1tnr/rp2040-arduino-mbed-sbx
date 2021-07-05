@@ -3,9 +3,17 @@
 // Mon Jul  5 07:49:00 UTC 2021
 
 #include "pico/bootrom.h"
+#include "rtos.h" // no issue just including the .h file
+
 #define WAIT_COUNT 1200000
 #define TRUE_P -1
 #define FALSE_P 0
+
+#define MS(x) chrono::milliseconds(x) // element14
+using namespace std; // we will be using std::chrono // element14
+using namespace rtos; // we will be using rtos::ThisThread // element14
+
+Thread the_only_thread;
 
 // lifted code pico-sdk (included copy during mbed arduino system install):
 typedef void *(*rom_table_lookup_fn)(uint16_t *table, uint32_t code);
@@ -41,7 +49,9 @@ void led_foo(void) {
 }
 
 uint8_t count = 0;
-void print_beacon(void) { // continuous message
+
+// void led_red_function() // element14
+void fn_print_beacon_thread(void) { // continuous message
     count++;
     Serial.print("  BEACON ");
     Serial.print(count);
@@ -61,16 +71,28 @@ void setup_gpio(void) {
     digitalWrite(LED_BUILTIN, 0);
 }
 
-void setup() {
+/*
+int main_x() {
+/
+    led_red_thread.start(led_red_function); // start red thread // element14
+/
+    the_only_thread.start(fn_print_beacon_thread); // element14
+}
+*/
+
+// void setup() {
+int main() {
     int timeout_count = 4; // reflash timing by counting
     bool times_up = TRUE_P;
+
+    the_only_thread.start(fn_print_beacon_thread); // element14
 
     setup_gpio();
     setup_serial();
 
     do {
         timeout_count--;
-        print_beacon();
+        // ATTN // print_beacon();
         led_foo();
         waitloop();
         if (timeout_count == 0) {
@@ -80,7 +102,7 @@ void setup() {
 
     led_foo(); led_foo(); led_foo();
 
-    Serial.println("7C9A2 unique message!");
+    Serial.println(" 9B74E unique message!");
 
     longwaitloop(); longwaitloop();
 
