@@ -4,6 +4,7 @@
 
 
 #include "pico/bootrom.h"
+#include "mbed.h" // system_reset() requires this
 #include "rtos.h" // no issue just including the .h file
 
 #define TRUE_P -1
@@ -128,7 +129,8 @@ void setup() {
         led_bar();
     }
 
-    reflash(); // RPI_RP2 exposed
+    system_reset(); // no reflash
+    // reflash(); // RPI_RP2 exposed
 }
 
 void loop() { while (1); } // required
