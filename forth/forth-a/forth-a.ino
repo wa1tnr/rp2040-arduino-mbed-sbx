@@ -461,8 +461,65 @@ const entry dictionary[] = {
   {_dotS, dotS},
   {_delay, del},
   {_reflashed, _reflash},
+/*
+  {_high, high},
+  {_low, low},
+  {_in, in},
+  {_input, input},
+*/
+  {_output, output},
+/*
+  {_input_pullup, input_pullup},
+  {_wiggle, wiggle},
+  {_dumpr, rdumps},
+  {_speed, speed},
+*/
   {_nopp, nopp} // to pad dictionary
 };
+
+/* const entry dictionary[] = {
+  {_nop, nop},
+  {_throw, throw_},
+  {_xtTOword, xtTOword},
+  {_xtTOadrs, xtTOadrs},
+  {_execadrs, execadrs},
+  {_execXT, execXT},
+  {_EXECUTE, EXECUTE},
+  {_xxt, xxt},
+  {_words, words},
+  {_tick, tick},
+  {_entries_, _entries},
+  {_drop, drop},
+  {_dup, dup},
+  {_back, back},
+  {_swap, swap},
+  {_over, over},
+  {_add, add},
+  {_and, and_},
+  {_or, or_},
+  {_xor, xor_},
+  {_invert, invert},
+  {_negate, negate},
+  {_clearstack, clearstack},
+  {_dotS, dotS},
+  {_dotShex, dotShex},
+  {_dot, dot},
+  {_dotHEX, dotHEX},
+  {_delay, del},
+  {_high, high},
+  {_low, low},
+  {_in, in},
+  {_input, input},
+  {_output, output},
+  {_input_pullup, input_pullup},
+  {_wiggle, wiggle},
+  {_dumpr, rdumps},
+  {_speed, speed},
+  {_nopp, nopp} // to pad dictionary
+}
+
+
+*/
 
 /* Number of words in the dictionary */
 const int entries = sizeof dictionary / sizeof dictionary[0];
