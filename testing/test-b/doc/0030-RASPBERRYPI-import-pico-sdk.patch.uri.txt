@@ -1,0 +1,1 @@
+ /some/path/to/Arduino/hardware/arduino/mbed/patches/0030-RASPBERRYPI-import-pico-sdk.patch
