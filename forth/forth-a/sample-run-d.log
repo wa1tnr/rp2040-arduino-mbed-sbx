@@ -1,0 +1,21 @@
+
+ LED toggle high or low
+
+ GPIO25 is Rpi Pico RP2040 LED (on-board).
+
+Forth-like interpreter.  Please press any key to begin..nop output low high reflash delay .s . swap dup drop entries ' words execadrs xt>word throw    E2296 unique message!
+ ?
+ ?
+  BEACON 1 ?
+  BEACON 2  BEACON 3  BEACON 4  BEACON 5  BEACON 6  BEACON 7  BEACON 8  BEACON 9  BEACON 10  BEACON 11  BEACON 12  BEACON 13  BEACON 14  BEACON 15  BEACON 16  BEACON 17  BEACON 18  BEACON 19  BEACON 20  BEACON 21  BEACON 22  BEACON 23 ?
+ ?
+25  ok
+.s 25 0 0 0 0 0 0 0  ok
+hi ?
+.s 25 0 0 0 0 0 0 0  ok
+high  ok
+.s 0 0 0 0 0 0 0 25  ok
+25 low  ok
+25 high  ok
+25 low  ok
+
