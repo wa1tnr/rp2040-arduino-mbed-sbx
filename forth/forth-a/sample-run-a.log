@@ -1,0 +1,61 @@
+
+Forth-like interpreter.  Please press any key to begin..
+
+note: typing 'words' lists the vocabulary available.
+
+nop reflash delay . swap dup drop entries ' words execadrs xt>word throw    B29DC unique message!
+ ?
+  BEACON 1  BEACON 2  BEACON 3  BEACON 4  BEACON 5  BEACON 6
+BEACON 7  BEACON 8  BEACON 9  BEACON 10  BEACON 11  BEACON 12
+BEACON 13  BEACON 14  BEACON 15  BEACON 16  BEACON 17  BEACON 18
+BEACON 19  BEACON 20  BEACON 21  BEACON 22  BEACON 23 ?
+ ?
+
+note: the single question mark is the opposite of an 'ok' response.
+
+Means it wasn't interpreted at all.
+
+5  ok
+3  ok
+. 3  ok
+. 5  ok
+. 0  ok
+15 44 . 44  ok
+. 15  ok
+15 44 swap . 15  ok
+. 44  ok
+
+words nop reflash delay . swap dup drop entries ' words execadrs xt>word throw    ok
+reflash Invalid argument
+ mc $ microcom -p /dev/ttyACM0 
+connected to /dev/ttyACM0
+Escape character: Ctrl-\
+Type the escape character to get to the prompt.
+Forth-like interpreter.  Please press any key to begin..nop reflash delay . swap dup drop entries ' words execadrs xt>word throw    F84B2 unique message!
+ ?
+  BEACON 1  BEACON 2  BEACON 3  BEACON 4  BEACON 5  BEACON 6  BEACON 7  BEACON 8  BEACON 9  BEACON 10  BEACON 11  BEACON 12  BEACON 13  BEACON 14  BEACON 15  BEACON 16  BEACON 17  BEACON 18  BEACON 19  BEACON 20  BEACON 21  BEACON 22  BEACON 23 ?
+ ?
+words nop reflash delay . swap dup drop entries ' words execadrs xt>word throw    ok
+5  ok
+. 5  ok
+999  ok
+. 999  ok
+12387  ok
+. 12387  ok
+12948 32734  ok
+. 32734  ok
+. 12948  ok
+32688  ok
+14281  ok
+. 14281  ok
+. 32688  ok
+987654  ok
+432109  ok
+. 432109  ok
+. 987654  ok
+987654  ok
+432109  ok
+swap  ok
+. 987654  ok
+. 432109  ok
+
