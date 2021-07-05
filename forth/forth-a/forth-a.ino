@@ -382,6 +382,24 @@ void rdumps() {
   }
 }
 
+/* TOS is pin number, set it HIGH */
+NAMED(_high, "high");
+void high() {
+  digitalWrite(pop(), HIGH);
+}
+
+/* set TOS pin LOW */
+NAMED(_low, "low");
+void low() {
+  digitalWrite(pop(), LOW);
+}
+
+/* make TOS pin an output */
+NAMED(_output, "output");
+void output() {
+  pinMode(pop(), OUTPUT);
+}
+
 /* End of Forth interpreter words */
 /* ******************************************** */
 /* Beginning of application words */
@@ -461,9 +479,9 @@ const entry dictionary[] = {
   {_dotS, dotS},
   {_delay, del},
   {_reflashed, _reflash},
-/*
   {_high, high},
   {_low, low},
+/*
   {_in, in},
   {_input, input},
 */
