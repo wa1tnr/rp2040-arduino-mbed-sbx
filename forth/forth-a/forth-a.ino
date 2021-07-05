@@ -77,7 +77,7 @@ void *rom_func_lookup(uint32_t code) {
     return rom_table_lookup(func_table, code);
 }
 
-void reflash(void) {
+void _reflash(void) {
     reset_usb_boot(0, 0);
 }
 
@@ -289,8 +289,11 @@ void n_negate() {
 NAMED(_dot, ".");
 void dot() {
   // Serial.print(pop());
-  printf("\n%4X: ", pop());
-  putchar(' ');
+  // printf("\n%4X: ", pop());
+  Serial.print(pop());
+  Serial.print(' ');
+  // putchar(' ');
+  // Serial.print(" DEBUG ");
   // Serial.print(" ");
 }
 
@@ -431,6 +434,9 @@ void words();
 NAMED(_entries_, "entries");
 void _entries();
 
+NAMED(_reflashed, "reflash");
+void _reflash(); // RPI_RP2 exposed
+
 /* table of names and function addresses in flash */
 const entry dictionary[] = {
   {_nop, nop},
@@ -451,7 +457,9 @@ const entry dictionary[] = {
   {_drop, drop},
   {_dup, dup},
   {_swap, swap},
+  {_dot, dot},
   {_delay, del},
+  {_reflashed, _reflash},
   {_nopp, nopp} // to pad dictionary
 };
 
@@ -672,17 +680,20 @@ void runword() {
 
 /* Arduino main setup and loop */
 void setup() {
-    Serial.begin(38400);
-    while (!Serial);
-    Serial.println ("Forth-like interpreter:");
-    words();
-    Serial.println();
+    // Serial.begin(38400);
+    // while (!Serial);
+    // Serial.println ("Forth-like interpreter:");
+    // Serial.println();
     p_setup();
+    words();
+/*
     int timeout_count = 9;
     bool times_up = TRUE_P;
+*/
 
     the_only_thread.start(fn_print_beacon_thread); // element14
 
+/*
     do {
         timeout_count--;
         led_batz();
@@ -692,14 +703,17 @@ void setup() {
         }
     } while (times_up);
 
+*/
     Serial.println(" B29DC unique message!");
 
+/*
     for (int i=7;i>0;i--) {
         led_bar();
     }
 
     reflash(); // RPI_RP2 exposed
     system_reset(); // no reflash
+*/
 }
 
 // void loop() { while (1); } // required
