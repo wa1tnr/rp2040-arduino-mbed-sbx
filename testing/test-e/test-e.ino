@@ -5,7 +5,7 @@
 // minimally functional - many questions unanswered.  But 'works' sort of.
 
 #include "pico/bootrom.h"
-#include "mbed.h"
+// #include "mbed.h" // UNUSED
 #include "rtos.h" // no issue just including the .h file
 
 #define WAIT_COUNT 1200000
@@ -15,7 +15,7 @@
 #define MS(x) chrono::milliseconds(x) // element14
 using namespace std; // we will be using std::chrono // element14
 using namespace rtos; // we will be using rtos::ThisThread // element14
-using namespace arduino; // shot in the dark
+// using namespace arduino; // shot in the dark // UNUSED
 
 Thread the_only_thread;
 
@@ -31,10 +31,6 @@ void *rom_func_lookup(uint32_t code) {
 
 void reflash(void) {
     reset_usb_boot(0, 0);
-}
-
-void waxitloop(void) {
-    for (volatile int i=WAIT_COUNT;i>0;i--); // do not optimize
 }
 
 void led_bar(void) {
@@ -54,15 +50,13 @@ void led_foo(void) {
 
 uint8_t count_here = 0;
 
-// void led_red_function() // element14
 void fn_print_beacon_thread(void) { // continuous message
-    for (int i=33;i>0;i--) {
+    for (int i=23;i>0;i--) {
     count_here++;
     Serial.print("  BEACON ");
     Serial.print(count_here);
     digitalWrite(LED_BUILTIN, 1);
     ThisThread::sleep_for(MS(5));
-
     digitalWrite(LED_BUILTIN, 0);
     ThisThread::sleep_for(MS(92));
     }
@@ -79,23 +73,24 @@ void setup_gpio(void) {
 void p_setup(void) {
     setup_gpio();
     setup_serial();
-    for (int i=5;i>0;i--) { led_foo(); }
+    for (int i=5;i>0;i--) {
+        led_foo();
+    }
 }
 
-void setup() { // int main()
+void setup() {
     p_setup();
-    int timeout_count = 9; // reflash timing by counting
+    int timeout_count = 9;
     bool times_up = TRUE_P;
 
     the_only_thread.start(fn_print_beacon_thread); // element14
 
     do {
         timeout_count--;
-        // ATTN // print_beacon();
         led_bar();
         Serial.print(" KXG");
         if (timeout_count == 0) {
-            times_up = FALSE_P; // loop exit mechanism
+            times_up = FALSE_P;
         }
     } while (times_up);
 
@@ -103,12 +98,7 @@ void setup() { // int main()
 
     for (int i=12;i>0;i--) { led_foo(); }
 
-    reflash(); // RPI_RP2 thumb-drive like entity exposed to operating system via USB
+    reflash(); // RPI_RP2 exposed
 }
 
-
-void loop() {
-    Serial.println("NEVER SEEN.");
-    while (1);
-}
-
+void loop() { while (1); } // required
