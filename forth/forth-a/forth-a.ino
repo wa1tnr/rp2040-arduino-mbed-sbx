@@ -408,17 +408,21 @@ void throw_();
 NAMED(_execadrs, "execadrs");
 void execadrs(); // execute at address
 
+/*
 NAMED(_execXT, "execxt"); // execute from an xt (execution token) lookup
 void execXT();
+*/
 
 NAMED(_xtTOword, "xt>word");
 void xtTOword();
 
+/*
 NAMED(_EXECUTE, "EXECUTE"); // ( xt -- ) action: execute
 void EXECUTE(); // ( xt -- ) action: execute
 
 NAMED(_xxt, "xxt"); // alias for EXECUTE - execute execution token
 void xxt();
+*/
 
 /* Forward declaration required here */
 NAMED(_words, "words");
@@ -436,9 +440,11 @@ const entry dictionary[] = {
   {_xtTOadrs, xtTOadrs},
 */
   {_execadrs, execadrs},
+/*
   {_execXT, execXT},
   {_EXECUTE, EXECUTE},
   {_xxt, xxt},
+*/
   {_words, words},
   {_tick, tick},
   {_entries_, _entries},
@@ -565,7 +571,112 @@ int setup_the_interpreter() {
 
 
 
+
+
+/* Is the word in tib a number? */
+int isNumber() {
+  char *endptr;
+  strtol(tib, &endptr, 0);
+  if (endptr == tib) return 0;
+  if (*endptr != '\0') return 0;
+  return 1;
+}
+
+/* Convert number in tib */
+int number() {
+  char *endptr;
+  return (int) strtol(tib, &endptr, 0);
+}
+
+char ch;
+
+void ok() {
+  if (crlfstate == -1) {
+    Serial.print(" ok\r\n");
+    crlfstate = 0;
+  }
+  // ORIG:  // if (ch == '\r') Serial.println("ok");
+}
+
+void printing() {
+  if (int(ch) == 13) {
+    crlfstate = -1; // raise crlfstate TRUE
+    Serial.print(" ");
+  } else {
+    if (int(ch) != 32) { // a space delimiter
+      Serial.print(ch);
+    } else { // it's a space
+      Serial.print(' ');
+    }
+  }
+}
+
+/* Incrementally read command line from serial port */
+/* support backspacing and other increased functionality */
+byte reading() {
+  if (!Serial.available()) return 1;
+  ch = Serial.read();
+  printing(); // alternate: Serial.print(ch); // char-by-char input, echo
+  if (ch == '\n') {
+    Serial.print("\r\n");
+    return 1;
+  }
+  if (ch == '\r') return 0;
+  if (ch == ' ') return 0;
+  if (ch == '\010') { // backspace
+    if (pos == 0) throw_();
+    tib[pos--] = 0;
+    tib[pos] = 0;
+    Serial.print(" ");
+    Serial.print("\010");
+    return 1;
+  }
+  if (pos < maxtib) {
+    tib[pos++] = ch;
+    tib[pos] = 0;
+  }
+  return 1;
+}
+
+/* Block on reading the command line from serial port */
+/* then echo each word */
+void readword() {
+  pos = 0;
+  tib[0] = 0;
+  while (reading());
+  // Serial.print(tib);
+  //  Serial.print(" ");
+}
+
+/* Run a word via its name */
+/* support xt and tick */
+void runword() {
+  int place = locate();
+  if (tickstate == -1) {
+    tickstate = 0;
+    push(place);
+    return;
+  }
+  if ((place != 0) & (place < (entries - 1))) {
+    dictionary[place].function();
+    ok();
+    return;
+  }
+  if (isNumber()) {
+    push(number());
+    ok();
+    return;
+  }
+  Serial.println("?");
+}
+
+/* Arduino main setup and loop */
 void setup() {
+    Serial.begin(38400);
+    while (!Serial);
+    Serial.println ("Forth-like interpreter:");
+    words();
+    Serial.println();
     p_setup();
     int timeout_count = 9;
     bool times_up = TRUE_P;
@@ -591,4 +702,11 @@ void setup() {
     system_reset(); // no reflash
 }
 
-void loop() { while (1); } // required
+// void loop() { while (1); } // required
+void loop() {
+  readword();
+  runword();
+}
+// revised: 30 September 2020
+
+// end
