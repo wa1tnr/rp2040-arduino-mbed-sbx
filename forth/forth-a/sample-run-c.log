@@ -1,0 +1,22 @@
+Forth-like interpreter.  Please press any key to begin..nop reflash delay .s . swap dup drop entries ' words execadrs xt>word throw    E2296 unique message!
+ ?
+  BEACON 1  BEACON 2  BEACON 3  BEACON 4  BEACON 5  BEACON 6  BEACON 7  BEACON 8  BEACON 9  BEACON 10  BEACON 11  BEACON 12  BEACON 13  BEACON 14  BEACON 15  BEACON 16  BEACON 17  BEACON 18  BEACON 19  BEACON 20  BEACON 21  BEACON 22  BEACON 23j ?
+999  ok
+888 777 666 /s ?
+.s 666 777 888 999 0 0 0 0  ok
+swap  ok
+.s 777 666 888 999 0 0 0 0  ok
+swap  ok
+.s 666 777 888 999 0 0 0 0  ok
+words nop reflash delay .s . swap dup drop entries ' words execadrs xt>word throw    ok
+333 delay  ok
+3333 delay  ok
+3333 delay .s 666 777 888 999 0 0 0 3333  ok
+22  ok
+dup  ok
+.s 22 22 666 777 888 999 0 0  ok
+dup  ok
+.s 22 22 22 666 777 888 999 0  ok
+dup  ok
+.s 22 22 22 22 666 777 888 999  ok
+Mon Jul  5 16:15:03 UTC 2021

@@ -1,5 +1,5 @@
 // forth-a.ino
-// Mon Jul  5 15:57:44 UTC 2021
+// Mon Jul  5 16:12:04 UTC 2021
 // Mon Jul  5 07:49:00 UTC 2021
 
 // #include <stdio.h>
@@ -458,6 +458,7 @@ const entry dictionary[] = {
   {_dup, dup},
   {_swap, swap},
   {_dot, dot},
+  {_dotS, dotS},
   {_delay, del},
   {_reflashed, _reflash},
   {_nopp, nopp} // to pad dictionary
@@ -706,7 +707,7 @@ void setup() {
     } while (times_up);
 
 */
-    Serial.println(" B29DC unique message!");
+    Serial.println(" E2296 unique message!");
 
 /*
     for (int i=7;i>0;i--) {
