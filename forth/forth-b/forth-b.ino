@@ -341,7 +341,7 @@ void led_pip(void) {
 }
 
 void pre_serial(void) {
-    led_fpip();
+    led_pip();
 }
 
 void led_foo(void) {
@@ -441,6 +441,10 @@ void nopp() { } // pad the dictionary
 NAMED(_nop, " ");
 void nop() { }
 
+/* notha nop */
+NAMED(_noppp, " ");
+void noppp() { } // pad the dictionary
+
 /* new word: throw */
 NAMED(_throw, "throw");
 void throw_();
@@ -518,7 +522,8 @@ const entry dictionary[] = {
   {_led_pip, led_fpip},
   {_led_bar, led_bar},
   {_led_batz, led_batz},
-  {_nopp, nopp} // to pad dictionary
+  {_nopp, nopp}, // to pad dictionary
+  {_noppp, noppp} // to pad dictionary
 };
 
 /* const entry dictionary[] = {
@@ -808,7 +813,7 @@ void setup() {
     } while (times_up);
 
 */
-    Serial.println(" E2296 unique message!");
+    Serial.println(" A73B6 unique message!");
 
 /*
     for (int i=7;i>0;i--) {
