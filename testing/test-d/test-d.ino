@@ -57,7 +57,6 @@ void led_foo(void) {
     waitloop(); waitloop();
     digitalWrite(LED_BUILTIN, 0);
     waitloop(); waitloop();
-    // digitalWrite(LED_BUILTIN, 1);
 }
 
 uint8_t count = 0;
@@ -83,37 +82,17 @@ void setup_serial(void) {
 
 void setup_gpio(void) {
     pinMode(LED_BUILTIN, 1);
-/*
-    digitalWrite(LED_BUILTIN, 0);
-    longwaitloop();
-    digitalWrite(LED_BUILTIN, 1);
-    longwaitloop();
-    digitalWrite(LED_BUILTIN, 0);
-*/
 }
 
-/*
-int main_x() {
-/
-    led_red_thread.start(led_red_function); // start red thread // element14
-/
-    the_only_thread.start(fn_print_beacon_thread); // element14
-}
-*/
-
-void setup(void) { // std thread?
+void p_setup(void) {
     setup_gpio();
     setup_serial();
 }
 
-// void setup() {
 int main() {
-    setup(); // say what
+    p_setup();
     int timeout_count = 33; // reflash timing by counting
     bool times_up = TRUE_P;
-
-    // setup_gpio();
-    // setup_serial();
 
     the_only_thread.start(fn_print_beacon_thread); // element14
 
@@ -126,17 +105,17 @@ int main() {
         }
     } while (times_up);
 
-    // led_foo(); led_foo(); led_foo();
-
-    Serial.println(" A252B unique message!");
+    // Serial.println(" A252B unique message!");
 
     led_foo(); led_foo(); led_foo(); led_foo(); led_foo();
 
     reflash(); // RPI_RP2 thumb-drive like entity exposed to operating system via USB
 }
 
+/*
 void loop() {
     Serial.println("NEVER SEEN.");
     longwaitloop(); longwaitloop();
     while (1);
 }
+*/
