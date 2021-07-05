@@ -6,7 +6,6 @@
 #include "pico/bootrom.h"
 #include "rtos.h" // no issue just including the .h file
 
-#define WAIT_COUNT 1200000
 #define TRUE_P -1
 #define FALSE_P 0
 
@@ -47,6 +46,14 @@ void led_bar(void) {
     ThisThread::sleep_for(MS(500));
 }
 
+void led_pip(void) {
+    ThisThread::sleep_for(MS(11));
+    digitalWrite(LED_BUILTIN, 1);
+    ThisThread::sleep_for(MS(3));
+    digitalWrite(LED_BUILTIN, 0);
+    ThisThread::sleep_for(MS(3711));
+}
+
 void led_foo(void) {
     ThisThread::sleep_for(MS(11));
     digitalWrite(LED_BUILTIN, 1);
@@ -67,8 +74,23 @@ void fn_print_beacon_thread(void) { // continuous message
     }
 }
 
+void wait_serial(void) {
+    for(;;) {
+        if (Serial.available()) { break; }
+        ThisThread::sleep_for(MS(128));
+    }
+}
+
+void pre_serial(void) {
+    led_pip();
+}
+
 void setup_serial(void) {
     Serial.begin(115200);
+    while (!Serial) { pre_serial(); }
+    ThisThread::sleep_for(MS(1128));
+    Serial.print("Online.  Please press any key to begin..");
+    wait_serial();
 }
 
 void setup_gpio(void) {
