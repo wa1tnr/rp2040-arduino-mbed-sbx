@@ -140,6 +140,9 @@ void setup_serial(void) {
     ThisThread::sleep_for(MS(128));
     Serial.print("Forth-like interpreter.  Please press any key to begin..");
     wait_serial();
+    Serial.print("\n\n268505344 interesting address for 'dump' and is in decimal notation.");
+    Serial.println("\n\n268435456 baseline of 0x10000000");
+    Serial.println("\n\n268503200 embedded strings 0x100108A0");
     int ii = Serial.read();
     push(ii);
 }
@@ -364,29 +367,38 @@ void dumpRAM() {
   ram = (char*)p;
 
   // sprintf(buffer, "%4x", p);
-  printf(buffer, "%4x", p);
+  sprintf(buffer, "%4x", p);
 
-  // Serial.print(buffer);
-  printf("%s", buffer);
+  // printf("%s", buffer);
+  Serial.print(buffer);
 
-  // Serial.print("   ");
-  putchar(' '); putchar(' '); putchar(' ');
+  // putchar(' '); putchar(' '); putchar(' ');
+  Serial.print("   ");
 
   for (int i = 0; i < 16; i++) {
     char c = *ram++;
-    printf(buffer, " %2x", (c & 0xff));
-    // Serial.print(buffer);
-    printf("%s", buffer);
+    sprintf(buffer, " %2x", (c & 0xff));
+
+    //  BIG FFF NOTE - use sprintf to copy into the buffer.  Try Serial.print to print from the same buffer.
+    //  BIG FFF NOTE - use sprintf to copy into the buffer.  Try Serial.print to print from the same buffer.
+    //  BIG FFF NOTE - use sprintf to copy into the buffer.  Try Serial.print to print from the same buffer.
+    //  BIG FFF NOTE - use sprintf to copy into the buffer.  Try Serial.print to print from the same buffer.
+    //  BIG FFF NOTE - use sprintf to copy into the buffer.  Try Serial.print to print from the same buffer.
+    //  BIG FFF NOTE - use sprintf to copy into the buffer.  Try Serial.print to print from the same buffer.
+
+    Serial.print(buffer); // print two hex converted chars
+    // printf("%s", buffer);
   }
   ram = (char*)p;
-  // Serial.print("   ");
-  putchar(' '); putchar(' '); putchar(' ');
+  // putchar(' '); putchar(' '); putchar(' ');
+  Serial.print("   ");
   for (int i = 0; i < 16; i++) {
     buffer[0] = *ram++;
     if (buffer[0] > 0x7f || buffer[0] < ' ') buffer[0] = '.';
     buffer[1] = '\0';
     // Serial.print(buffer);
-    printf("%s", buffer);
+    // printf("%s", buffer);
+    Serial.print(buffer);
   }
   push(p + 16);
 }
@@ -395,8 +407,8 @@ void dumpRAM() {
 NAMED(_dumpr, "dump");
 void rdumps() {
   for (int i = 0; i < 16; i++) {
-    // Serial.println();
-    putchar('\n'); putchar('\r');
+    Serial.println();
+    // putchar('\n'); putchar('\r');
     dumpRAM();
   }
 }
@@ -506,6 +518,7 @@ const entry dictionary[] = {
   {_delay, del},
   {_reflashed, _reflash},
   {_reset_this, _reset_this_board},
+  {_dumpr, rdumps},
   {_high, high},
   {_low, low},
 /*
