@@ -43,25 +43,22 @@ void setup() {
     digitalWrite(LED_BUILTIN, 1);
     longwaitloop();
     digitalWrite(LED_BUILTIN, 0);
-    longwaitloop();
     Serial.begin(9600);
     longwaitloop();
-    longwaitloop();
 
-    int timeout_count = 11; // reflash timeout functionality planned
+    int timeout_count = 4; // reflash timeout functionality planned
 
     do {
         timeout_count--;
         print_beacon();
         led_foo();
-        waitloop(); waitloop(); waitloop(); waitloop();
+        waitloop();
         if (timeout_count == 0) { reflash(); } // no expectations yet.  Testing.
     } while (1);
 
     led_foo();
     led_foo();
     led_foo();
-    longwaitloop();
     // reflash(); // may be a while before this activates!
 }
 void loop() { while (1); }
