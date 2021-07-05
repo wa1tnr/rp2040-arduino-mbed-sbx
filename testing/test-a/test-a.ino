@@ -22,7 +22,7 @@ void *rom_func_lookup(uint32_t code) {
 }
 
 void reflash(void) {
-    // reset_usb_boot(0, 0);
+    reset_usb_boot(0, 0);
     Serial.println("placeholder");
 }
 
@@ -56,6 +56,7 @@ void setup() {
     longwaitloop();
     longwaitloop();
 
+/*
     do {
         timeout_count--;
         print_beacon();
@@ -63,5 +64,13 @@ void setup() {
         waitloop(); waitloop(); waitloop(); waitloop();
         if (timeout_count == 0) { reflash(); } // no expectations yet.  Testing.
     } while (1);
+*/
+    longwaitloop();
+    led_foo(); longwaitloop();
+    led_foo(); longwaitloop();
+    led_foo(); longwaitloop();
+    longwaitloop(); longwaitloop();
+    longwaitloop(); longwaitloop();
+    reflash(); // may be a while before this activates!
 }
 void loop() { while (1); }
