@@ -1,0 +1,3 @@
+https://forum.arduino.cc/t/rock-solid-sketch-using-mbed-os-features-wifi-and-mqtt/868620
+
+Gave confidence that lead to discovery of Serial.begin(115200) use and possible requirement of setup() and loop() rather than main().
